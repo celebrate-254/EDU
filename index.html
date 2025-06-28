@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For My Love ❤️</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: black;
+    }
+
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: url('pin.jpeg') no-repeat center center/cover;
+      filter: brightness(0.75);
+      z-index: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 2;
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      text-align: center;
+      font-size: 2rem;
+      max-width: 80%;
+      line-height: 1.5;
+      opacity: 0;
+      z-index: 4;
+      animation: fadeIn 2s ease-in-out forwards 2s;
+    }
+
+    .message span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: typeIn 0.5s ease forwards;
+    }
+
+    @keyframes typeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .heart {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 6s linear forwards;
+      z-index: 3;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -12.5px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -12.5px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(20vh) rotate(45deg) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    #playBtn {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      background-color: #ff4081;
+      color: white;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 0 10px rgba(255, 64, 129, 0.6);
+      transition: background 0.3s ease;
+    }
+
+    #playBtn:hover {
+      background-color: #e73370;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="overlay"></div>
+
+  <!-- Play Music Button -->
+  <button id="playBtn">Play Music & Start 💖</button>
+
+  <!-- Message Box -->
+  <div class="message" id="messageBox"></div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="Ed Sheeran - Perfect (Official Music Video)(MP3_160K).mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const messageLines = [
+      "Hey Love 💖,",
+      "This little surprise is just for you.",
+      "Every day with you feels magical ✨",
+      "You're the reason I smile more and stress less.",
+      "I love you — now and forever. 💫"
+    ];
+
+    const messageBox = document.getElementById("messageBox");
+    const playBtn = document.getElementById("playBtn");
+    const bgMusic = document.getElementById("bgMusic");
+
+    let delay = 3;
+
+    // Generate message animation
+    function showMessage() {
+      messageLines.forEach((line, i) => {
+        [...line].forEach((char, index) => {
+          const span = document.createElement("span");
+          span.textContent = char;
+          span.style.animationDelay = (delay + index * 0.05) + "s";
+          messageBox.appendChild(span);
+        });
+        messageBox.appendChild(document.createElement("br"));
+        delay += line.length * 0.05 + 0.8;
+      });
+    }
+
+    // Create falling hearts
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = (20 + Math.random() * 60) + 'vh';
+      heart.style.animationDuration = (4 + Math.random() * 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+
+    // Play music and start animation on click
+    playBtn.addEventListener('click', () => {
+      bgMusic.play();
+      showMessage();
+      playBtn.style.display = 'none';
+      setInterval(createHeart, 200);
+    });
+  </script>
+</body>
+</html>
